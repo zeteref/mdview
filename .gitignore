@@ -1,0 +1,19 @@
+# dependencies
+node_modules/
+
+# build / packaging output
+dist/
+out/
+build/
+*.AppImage
+*.deb
+*.rpm
+
+# logs
+*.log
+npm-debug.log*
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp

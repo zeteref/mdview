@@ -1,0 +1,195 @@
+div.sourceCode, pre.mdv-plain {
+  position: relative;
+  margin: 1.25em 0;
+  padding: 2em 1.1em 0.9em;
+  background: #f6f3ec;
+  border: 1px solid #e2d9c8;
+  border-left: 4px solid #b5832a;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(40, 30, 10, 0.06);
+}
+div.sourceCode pre, pre.mdv-plain {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  overflow-x: auto;
+}
+.mdv-lang, .mdv-copy {
+  position: absolute;
+  top: 0.4em;
+  font: 12px/1.4 ui-sans-serif, system-ui, sans-serif;
+}
+.mdv-lang {
+  left: 0.75em;
+  color: #8a7350;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.mdv-copy {
+  right: 0.45em;
+  border: 1px solid #d2c6b0;
+  background: #fff;
+  color: #3d3426;
+  border-radius: 5px;
+  padding: 0.15em 0.55em;
+  cursor: pointer;
+}
+.mdv-copy:hover { background: #fff8ea; }
+html, body, * {
+  scrollbar-width: none;
+}
+*::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+div.sourceCode,
+div.sourceCode pre,
+pre.mdv-plain {
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(61, 52, 38, 0.45) transparent;
+}
+div.sourceCode pre code,
+pre.mdv-plain code {
+  white-space: pre;
+}
+div.sourceCode::-webkit-scrollbar,
+div.sourceCode pre::-webkit-scrollbar,
+pre.mdv-plain::-webkit-scrollbar {
+  height: 8px;
+  display: block;
+}
+div.sourceCode::-webkit-scrollbar-thumb,
+div.sourceCode pre::-webkit-scrollbar-thumb,
+pre.mdv-plain::-webkit-scrollbar-thumb {
+  background: rgba(61, 52, 38, 0.45);
+  border-radius: 999px;
+}
+body {
+  background: #efeae2;
+}
+.mdv-close {
+  position: fixed;
+  top: 0.7em;
+  right: 0.7em;
+  z-index: 20;
+  width: 2.75em;
+  height: 2.75em;
+  border: 0;
+  border-radius: 999px;
+  background: #3d3426;
+  color: #fffaf0;
+  font: 32px/1 system-ui, sans-serif;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(40, 30, 10, 0.32);
+}
+.mdv-close:hover { background: #c47d12; }
+.mdv-pos {
+  position: fixed;
+  left: 0.7em;
+  bottom: 0.7em;
+  z-index: 20;
+  padding: 0.3em 0.6em;
+  border-radius: 999px;
+  background: rgba(61, 52, 38, 0.45);
+  color: #fffaf0;
+  font: 13px/1.2 system-ui, sans-serif;
+  pointer-events: none;
+}
+.mdv-block {
+  position: relative;
+  margin: 1.4em 0;
+  border: 1px solid #ddd4c4;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(40, 30, 10, 0.05);
+}
+.mdv-block > h2 {
+  margin: 0;
+  padding: 0.65em 1em;
+  background: #3d3426;
+  color: #f6f3ec;
+  font-size: 1.05rem;
+  border-bottom: 3px solid #b5832a;
+}
+.mdv-body {
+  padding: 0.2em 1em 0.6em;
+  background: #fffcf7;
+}
+.mdv-body > p:first-child { margin-top: 0.8em; }
+.mdv-ui {
+  position: fixed;
+  right: 0.7em;
+  bottom: 0.7em;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 0.55em;
+  padding: 0.35em 0.55em;
+  border-radius: 999px;
+  background: rgba(61, 52, 38, 0.92);
+  color: #fffaf0;
+  font: 13px/1.2 system-ui, sans-serif;
+  box-shadow: 0 6px 18px rgba(40, 30, 10, 0.32);
+}
+.mdv-ui-group {
+  display: flex;
+  align-items: center;
+  gap: 0.2em;
+}
+.mdv-ui-label {
+  margin-right: 0.2em;
+  color: rgba(255, 250, 240, 0.7);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.mdv-ui button {
+  border: 1px solid rgba(255, 250, 240, 0.4);
+  background: transparent;
+  color: #fffaf0;
+  border-radius: 999px;
+  width: 1.75em;
+  height: 1.75em;
+  cursor: pointer;
+  font: 13px/1 system-ui, sans-serif;
+}
+.mdv-ui button:hover { background: #c47d12; border-color: #c47d12; }
+.mdv-ui-value {
+  min-width: 2.4em;
+  text-align: center;
+}
+.mdv-toc {
+  position: fixed;
+  top: 0.7em;
+  left: 0.7em;
+  z-index: 40;
+  max-height: 70vh;
+  max-width: 34vw;
+  overflow-y: auto;
+  padding: 0.5em 0.7em;
+  background: rgba(61, 52, 38, 0.94);
+  color: #fffaf0;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(40, 30, 10, 0.32);
+  font: 13px/1.5 system-ui, sans-serif;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 250, 240, 0.4) transparent;
+}
+.mdv-toc a {
+  display: block;
+  color: #f6f3ec;
+  text-decoration: none;
+  padding: 0.12em 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mdv-toc a:hover { color: #ffd27a; }
+.mdv-toc a.mdv-toc-h3 { padding-left: 1em; font-size: 12px; opacity: 0.85; }
+.mdv-toc::-webkit-scrollbar { width: 6px; display: block; }
+.mdv-toc::-webkit-scrollbar-thumb { background: rgba(255, 250, 240, 0.4); border-radius: 999px; }
+.mdv-toc-hidden { display: none; }

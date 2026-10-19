@@ -1,0 +1,6 @@
+{
+  "name": "mdview",
+  "version": "1.0.0",
+  "description": "Markdown viewer (Electron)",
+  "main": "main.js"
+}
