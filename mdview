@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+self=$(readlink -f "$0")
+self_dir=$(dirname "$self")
+
+if [[ -n ${MDVIEW_APP:-} ]]; then
+  app=$MDVIEW_APP
+elif [[ -f "$self_dir/main.js" ]]; then
+  app=$self_dir
+elif [[ -d /usr/lib/mdview ]]; then
+  app=/usr/lib/mdview
+else
+  app=$HOME/.local/share/mdview
+fi
+
+if ! command -v electron >/dev/null 2>&1; then
+  printf 'mdview: electron not found (install the "electron" package)\n' >&2
+  exit 1
+fi
+
+exec electron "$app" -- "$@"
