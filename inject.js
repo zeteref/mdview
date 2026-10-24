@@ -50,8 +50,6 @@
       if (event.ctrlKey || event.altKey || event.metaKey) return;
       if (event.key === "q") {
         closeWindow();
-      } else if (event.key === "o") {
-        if (window.mdv && window.mdv.openOsd) window.mdv.openOsd();
       } else if (event.key === "j" || event.key === "k") {
         const step = Math.round(window.innerHeight * 0.2);
         window.scrollBy({ top: event.key === "j" ? step : -step, behavior: "smooth" });

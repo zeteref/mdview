@@ -22,7 +22,6 @@ package() {
     "$startdir/preload.js" \
     "$startdir/inject.css" \
     "$startdir/inject.js" \
-    "$startdir/pango.js" \
     "$startdir/package.json" \
     "$appdir/"
 
