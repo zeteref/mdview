@@ -1,7 +1,7 @@
 # Maintainer: zeteref <zeteref@gmail.com>
 
 pkgname=mdview
-pkgver=1.0.0
+pkgver=1.0.1
 pkgrel=1
 pkgdesc="Markdown viewer (Electron) with a TOC and adjustable text/width"
 arch=('any')
