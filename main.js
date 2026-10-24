@@ -1,7 +1,7 @@
 "use strict";
 
 const { app, BrowserWindow, ipcMain } = require("electron");
-const { execFile } = require("child_process");
+const { execFile, spawn } = require("child_process");
 
 // Text-heavy viewer: software rendering is fine and avoids Vulkan-on-Wayland
 // GPU warnings / potential black windows.
@@ -17,13 +17,17 @@ const CONFIG_PATH = path.join(
   "config.json"
 );
 const MarkdownIt = require(path.join(APP_DIR, "vendor", "markdown-it.min.js"));
+const { markdownToPango } = require(path.join(APP_DIR, "pango.js"));
+
+// Markdown source of the file currently open, for the "open in osd" binding.
+let currentMarkdown = "";
 
 const USAGE = [
   "usage: mdview [--pandoc|--marked] <file.md>",
   "  renders a markdown file and opens it in a window",
   "  --pandoc  render with pandoc (default)",
   "  --marked  render with the bundled markdown-it",
-  "  q close · j/k scroll · [ ] width · { } font · t toc",
+  "  q close · j/k scroll · [ ] width · { } font · t toc · o osd",
 ].join("\n");
 
 function clamp(n, lo, hi) {
@@ -84,17 +88,19 @@ function readConfig() {
   }
 }
 
-function renderPandoc(file) {
+function renderPandoc(md, title) {
   return new Promise((resolve, reject) => {
-    execFile(
+    const child = execFile(
       "pandoc",
-      ["-f", "markdown", "-t", "html5", "--standalone", "--metadata", `title=${path.basename(file)}`, file],
+      ["-f", "markdown", "-t", "html5", "--standalone", "--metadata", `title=${title}`],
       { maxBuffer: 256 * 1024 * 1024 },
       (err, stdout, stderr) => {
         if (err) reject(new Error((stderr || String(err)).trim()));
         else resolve(stdout);
       }
     );
+    child.stdin.write(md);
+    child.stdin.end();
   });
 }
 
@@ -153,6 +159,25 @@ function createWindow(html) {
   });
 }
 
+// Render the current markdown in osd-window (a single native OSD card).
+function spawnOsd(markup) {
+  const child = spawn(
+    "osd-window",
+    ["--width", "900", "--height", "800", "--font", "Sans 15"],
+    { stdio: ["pipe", "ignore", "ignore"] }
+  );
+  child.on("error", (e) => {
+    if (e.code === "ENOENT") {
+      process.stderr.write("mdview: osd-window not found (install the osd-window package)\n");
+    } else {
+      process.stderr.write(`mdview: osd-window error: ${e.message}\n`);
+    }
+  });
+  child.stdin.on("error", () => {});
+  child.stdin.write(markup);
+  child.stdin.end();
+}
+
 ipcMain.on("save-settings", (_event, s) => {
   try {
     const f = Number(s && s.font);
@@ -170,6 +195,11 @@ ipcMain.on("close-window", (event) => {
   if (win) win.close();
 });
 
+ipcMain.on("open-osd", () => {
+  if (!currentMarkdown) return;
+  spawnOsd(markdownToPango(currentMarkdown));
+});
+
 app.whenReady().then(async () => {
   const { renderer, file, help } = parseArgs();
   if (help || !file) {
@@ -185,14 +215,20 @@ app.whenReady().then(async () => {
     return;
   }
 
+  let md;
+  try {
+    md = fs.readFileSync(abs, "utf8");
+  } catch (e) {
+    process.stderr.write(`cannot read: ${file}\n`);
+    app.exit(1);
+    return;
+  }
+  currentMarkdown = md;
+  const title = path.basename(abs);
+
   let baseHtml;
   try {
-    if (renderer === "marked") {
-      const md = fs.readFileSync(abs, "utf8");
-      baseHtml = renderMarked(md, path.basename(abs));
-    } else {
-      baseHtml = await renderPandoc(abs);
-    }
+    baseHtml = renderer === "marked" ? renderMarked(md, title) : await renderPandoc(md, title);
   } catch (e) {
     process.stderr.write(`render failed (${renderer}): ${e && e.message ? e.message : e}\n`);
     app.exit(1);
